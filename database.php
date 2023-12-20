@@ -1,7 +1,7 @@
 <?php
 
 $host="localhost";
-$dbname="GROUP3Revize";
+$dbname="GROUP3";
 $username="root";
 $password="";
 

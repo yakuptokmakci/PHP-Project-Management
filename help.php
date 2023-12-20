@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+if(isset($_SESSION["user_id"])){
+    $mysqli = require __DIR__ . "/database.php";
+
+    $sql = "SELECT * FROM user WHERE id = {$_SESSION["user_id"]}";
+
+    $result = $mysqli->query($sql);
+    $user = $result->fetch_assoc();
+}
+
+$tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,8 +34,10 @@
     </div>
     <div class="navbar-links">
         <a href="index.php">Home</a>
-        <a href="#">Add New Product</a>
-        <a href="help.html">Help</a>
+        <a href="create_project_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Create New Project</a>
+        <a href="create_equipment_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Equipment</a>
+        <a href="#">Define Operation</a>
+        <a href="help.php">Help</a>
         <a href="logout.php"><span class="material-symbols-outlined">logout</span></a>
     </div>
     <div class="burger-menu">

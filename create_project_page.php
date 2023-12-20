@@ -23,41 +23,63 @@ if(isset($_SESSION["user_id"])){
 </head>
 <body>
 <nav class="navbar">
-        <div class="logo">
-            <h1>Indstrual Control</h1>
-        </div>
-        <div class="navbar-links">
-            <a href="index.php">Home</a>
-            <a href="create_project_page.php user_id=<?php echo $_SESSION["user_id"]; ?>">Create New Project</a> 
-            <a href="#">Define Product</a>
-            <a href="help.html">Help</a>
-            <a href="logout.php"><span class="material-symbols-outlined">logout</span></a>
-        </div>
-        <div class="burger-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
-    <form action="process-signup.php" method="post" novalidate>
+    <div class="logo">
+        <h1>Indstrual Control</h1>
+    </div>
+    <div class="navbar-links">
+        <a href="index.php">Home</a>
+        <a href="create_project_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Create New Project</a>
+        <a href="create_equipment_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Equipment</a>
+        <a href="#">Define Operation</a>
+        <a href="help.php">Help</a>
+        <a href="logout.php"><span class="material-symbols-outlined">logout</span></a>
+    </div>
+    <div class="burger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+
+    <?php
+    
+        if(isset($_POST['btnsave'])){
+            $projectname = $_POST['projectname'];
+            $startdate = $_POST['startdate'];
+            $enddate = $_POST['enddate'];
+            $mysqli = require __DIR__ . "/database.php";
+
+            $query = "INSERT INTO `projects` (`project_name`, `project_creator_id`, `project_start_date`, `project_end_date`) VALUES ('$projectname', '{$_SESSION["user_id"]}', '$startdate', '$enddate')";
+
+            $sqlresult= $mysqli->query($query);
+            if(!$sqlresult){
+                die("something went wrong".mysqli_error());
+            }else{
+                die("New Project Added");
+            }
+
+        }
+    
+    ?>
+
+    <form action="create_project_page.php" method="post">
     <div>
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name">
+        <label for="projectname">Project Name</label>
+        <input type="text" id="projectname" name="projectname">
     </div>
     <div>
-        <label for="email">e-mail</label>
-        <input type="text" id="email" name="email">
+        <label for="startdate">Project Start Date</label>
+        <input type="date" id="startdate" name="startdate">
     </div>
     <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password">
+        <label for="enddate">Project End Date</label>
+        <input type="date" id="enddate" name="enddate">
     </div>
     <div>
-        <label for="password_confirmation">Repeat Password</label>
-        <input type="password" id="password_confirmation" name="password_confirmation">
+        <label for="stillgoing">Project Has Not Done Yet </label>
+        <input type="checkbox" id="stillgoing" name="stillgoing" onclick ="visibledate()">
     </div>
-    <button style="margin-right: 25px;">Sign Up</button>
-    <a href="login.php">Already have an account ? <b>Log in</b></a>
+    <button name="btnsave" style="margin-right: 25px;">Save</button>
     </form>
 
     <div class="footer">
@@ -66,6 +88,17 @@ if(isset($_SESSION["user_id"])){
             <p>USER : <?= $user["name"] ?></p>
         </div>
     </div>
+    <script>
+        function visibledate(){
+            var checkbox = document.getElementById("stillgoing");
+            var enddate =   document.getElementById("enddate");
 
+            if(checkbox.checked == true){
+                enddate.style.visibility="hidden";
+            }else{
+                enddate.style.visibility="visible";
+            }
+        }
+    </script>
 </body>
 </html>

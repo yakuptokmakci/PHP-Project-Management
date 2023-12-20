@@ -10,18 +10,16 @@ if(isset($_SESSION["user_id"])){
     $user = $result->fetch_assoc();
 }
 
-$tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GridPage</title>
     <link rel="stylesheet" type="text/css" href="global.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Create Project</title>
 </head>
 <body>
 <nav class="navbar">
@@ -42,48 +40,43 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
         <span></span>
     </div>
 </nav>
-    <?php if (isset($user)): ?>
-        <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <td>Options</td>
-            </tr>
-        </thead>
-        <tbody>
-        <?php
-            if(!$tableresult){
-                die("something went wrong" . mysqli_error());
-            } else {
-                while($row = mysqli_fetch_assoc($tableresult)){
-                ?>
-                <tr>
-                    <td><?php echo $row['product_id']; ?></td>
-                    <td><?php echo $row['product_name']; ?></td>
-                    <td>
-                        <!-- edit.php yi delete benzet!-->
-                        <a href="edit.php?id=<?php echo $row['product_id']; ?>" class="material-symbols-outlined">edit</a>
-                        <a href = "#"><span class="material-symbols-outlined">search</span></a>
-                        <a href="delete_page.php?id=<?php echo $row["product_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
-                    </td>
-                    </tr>
-            <?php
+
+    <?php
+    
+    if(isset($_POST['btnsave'])){
+        $productname = $_POST['productname'];
+        $mysqli = require __DIR__ . "/database.php";
+
+        $query = "INSERT INTO products (product_name)
+        SELECT * FROM (SELECT '$productname') AS tmp
+        WHERE NOT EXISTS (
+            SELECT product_name FROM products WHERE product_name = '$productname'
+        ) LIMIT 1";
+
+        $sqlresult= $mysqli->query($query);
+        if(!$sqlresult){
+            die("something went wrong".mysqli_error());
+        }else{
+            die("New product Added");
         }
+
     }
-?>
-        </tbody>
-    </table>
-    <?php else: ?>
-        <p><a href="login.php">to log in</a> or <a href="signup.htm">to sign up</a></p>
-    <?php endif; ?>
- 
+    
+    ?>
+
+    <form action="create_equipment_page.php" method="post">
+    <div>
+        <label for="productname">Product Name</label>
+        <input type="text" id="productname" name="productname">
+    </div>
+    <button name="btnsave" style="margin-right: 25px;">Save</button>
+    </form>
+
     <div class="footer">
         <p>&copy; 2023 Indstrual Control</p>
         <div class="footer-links">
             <p>USER : <?= $user["name"] ?></p>
         </div>
     </div>
-
 </body>
 </html>
