@@ -30,7 +30,7 @@ if(isset($_SESSION["user_id"])){
         <a href="index.php">Home</a>
         <a href="create_project_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Create New Project</a>
         <a href="create_equipment_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Equipment</a>
-        <a href="#">Define Operation</a>
+        <a href="create_operations_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Operation</a>
         <a href="help.php">Help</a>
         <a href="logout.php"><span class="material-symbols-outlined">logout</span></a>
     </div>
@@ -49,7 +49,14 @@ if(isset($_SESSION["user_id"])){
             $enddate = $_POST['enddate'];
             $mysqli = require __DIR__ . "/database.php";
 
-            $query = "INSERT INTO `projects` (`project_name`, `project_creator_id`, `project_start_date`, `project_end_date`) VALUES ('$projectname', '{$_SESSION["user_id"]}', '$startdate', '$enddate')";
+            $query = "INSERT INTO projects (project_name, project_creator_id, project_start_date, project_end_date)
+            SELECT '$projectname', '{$_SESSION["user_id"]}', '$startdate', '$enddate'
+            FROM DUAL
+            WHERE NOT EXISTS (
+                SELECT project_name 
+                FROM projects 
+                WHERE project_name = '$projectname'
+            ) LIMIT 1";
 
             $sqlresult= $mysqli->query($query);
             if(!$sqlresult){

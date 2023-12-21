@@ -10,7 +10,7 @@ if(isset($_SESSION["user_id"])){
     $user = $result->fetch_assoc();
 }
 
-$tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
+$tableresult = mysqli_query($mysqli, "SELECT * FROM `operations`");
 
 ?>
 
@@ -32,7 +32,7 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
         <a href="index.php">Home</a>
         <a href="create_project_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Create New Project</a>
         <a href="create_equipment_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Equipment</a>
-        <a href="#">Define Operation</a>
+        <a href="create_operations_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Operation</a>
         <a href="help.php">Help</a>
         <a href="logout.php"><span class="material-symbols-outlined">logout</span></a>
     </div>
@@ -59,13 +59,12 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
                 while($row = mysqli_fetch_assoc($tableresult)){
                 ?>
                 <tr>
-                    <td><?php echo $row['product_id']; ?></td>
-                    <td><?php echo $row['product_name']; ?></td>
+                    <td><?php echo $row['operation_id']; ?></td>
+                    <td><?php echo $row['operation_name']; ?></td>
                     <td>
-                        <!-- edit.php yi delete benzet!-->
-                        <a href="edit.php?id=<?php echo $row['product_id']; ?>" class="material-symbols-outlined">edit</a>
+                        <a href="edit.php?id=<?php echo $row['operation_id']; ?>" class="material-symbols-outlined">edit</a>
                         <a href = "#"><span class="material-symbols-outlined">search</span></a>
-                        <a href="delete_page.php?id=<?php echo $row["product_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
+                        <a href="delete_page.php?id=<?php echo $row["operation_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
                     </td>
                     </tr>
             <?php

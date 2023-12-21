@@ -30,7 +30,7 @@ if(isset($_SESSION["user_id"])){
         <a href="index.php">Home</a>
         <a href="create_project_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Create New Project</a>
         <a href="create_equipment_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Equipment</a>
-        <a href="#">Define Operation</a>
+        <a href="create_operations_page.php?user_id=<?php echo $_SESSION["user_id"]; ?>">Define Operation</a>
         <a href="help.php">Help</a>
         <a href="logout.php"><span class="material-symbols-outlined">logout</span></a>
     </div>
