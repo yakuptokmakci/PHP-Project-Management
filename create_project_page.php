@@ -123,8 +123,7 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `projects` WHERE project_cre
                             <td><?php echo $row['project_name']; ?></td>
                             <td>
                                 <a href="edit.php?id=<?php echo $row['project_id']; ?>" class="material-symbols-outlined">edit</a>
-                                <a href="#"><span class="material-symbols-outlined">search</span></a>
-                                <a href="delete_page.php?id=<?php echo $row["project_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
+                                <a href="delete_project_page.php?project_id=<?php echo $row["project_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
                             </td>
                         </tr>
                 <?php

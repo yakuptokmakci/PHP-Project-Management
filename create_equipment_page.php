@@ -49,13 +49,14 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_own
         $amount = $_POST['amount'];
         $mysqli = require __DIR__ . "/database.php";
 
-        $query = "INSERT INTO products (product_name, amount,product_owner_id) 
-        SELECT * FROM (SELECT '$productname', '$amount','{$_SESSION["user_id"]}') AS tmp
-        WHERE NOT EXISTS (
-            SELECT product_name FROM products WHERE product_name = '$productname' AND product_owner_id =
-            {$_SESSION["user_id"]}
-        ) LIMIT 1";
-    
+        $query = "INSERT INTO products (product_name, amount, product_owner_id) 
+          SELECT * FROM (SELECT '$productname', '$amount', '{$_SESSION["user_id"]}') AS tmp
+          WHERE NOT EXISTS (
+              SELECT product_name FROM products 
+              WHERE product_name = '$productname' AND amount = '$amount'
+          ) LIMIT 1";
+
+
 
         $sqlresult= $mysqli->query($query);
         if(!$sqlresult){
@@ -97,11 +98,11 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_own
                         ?>
                         <tr>
                             <td><?php echo $row['product_id']; ?></td>
-                            <td><?php echo $row['product_name']; ?></td>
+                            <td><?php echo $row['product_name'];?>
+                            <?php echo $row['amount'];?></td>
                             <td>
                                 <a href="edit.php?id=<?php echo $row['product_id']; ?>" class="material-symbols-outlined">edit</a>
-                                <a href="#"><span class="material-symbols-outlined">search</span></a>
-                                <a href="delete_page.php?id=<?php echo $row["product_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
+                                <a href="delete_equipment_page.php?product_id=<?php echo $row["product_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
                             </td>
                         </tr>
                 <?php
