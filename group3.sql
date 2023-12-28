@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 22 Ara 2023, 17:25:12
+-- Üretim Zamanı: 28 Ara 2023, 17:40:26
 -- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.2.12
 
@@ -29,21 +29,32 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `operations` (
   `operation_id` int(11) NOT NULL,
-  `operation_name` varchar(100) DEFAULT NULL,
-  `operation_project_id` int(11) DEFAULT NULL,
-  `operation_equipment_name` varchar(255) DEFAULT NULL,
-  `operation_owner` int(11) DEFAULT NULL
+  `operation_name` varchar(50) DEFAULT NULL,
+  `operation_owner` int(11) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Tablo döküm verisi `operations`
+-- Tablo için tablo yapısı `operation_products`
 --
 
-INSERT INTO `operations` (`operation_id`, `operation_name`, `operation_project_id`, `operation_equipment_name`, `operation_owner`) VALUES
-(2, 'ankara nur yapı', 6, 'qq', 1),
-(3, 'istanbul bayrampaşa yıldırım mah', 6, '12kg yangın tüpü azotlu', 1),
-(4, 'istanbul aydınevler metro', 6, 'kazma kürek kiti', 1),
-(5, 'web projesi geliştirme', 8, 'pc', 1);
+CREATE TABLE `operation_products` (
+  `operation_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `operation_projects`
+--
+
+CREATE TABLE `operation_projects` (
+  `operation_id` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -53,19 +64,20 @@ INSERT INTO `operations` (`operation_id`, `operation_name`, `operation_project_i
 
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
-  `product_name` varchar(100) DEFAULT NULL
+  `product_name` varchar(50) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `product_owner_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Tablo döküm verisi `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`) VALUES
-(1, 'qq'),
-(2, 'balta'),
-(3, '12kg yangın tüpü azotlu'),
-(4, 'kazma kürek kiti'),
-(5, 'pc');
+INSERT INTO `products` (`product_id`, `product_name`, `amount`, `product_owner_id`) VALUES
+(1, 'balta', 12, 1),
+(2, 'kazma kürek kiti', 5, 2),
+(3, 'yangın tüpü', 15, 1),
+(4, 'kazma kürek kiti', 13, 1);
 
 -- --------------------------------------------------------
 
@@ -75,8 +87,8 @@ INSERT INTO `products` (`product_id`, `product_name`) VALUES
 
 CREATE TABLE `projects` (
   `project_id` int(11) NOT NULL,
-  `project_name` varchar(100) DEFAULT NULL,
-  `project_creator_id` int(11) DEFAULT NULL,
+  `project_name` varchar(50) DEFAULT NULL,
+  `project_creater_id` int(11) DEFAULT NULL,
   `project_start_date` date DEFAULT NULL,
   `project_end_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -85,15 +97,10 @@ CREATE TABLE `projects` (
 -- Tablo döküm verisi `projects`
 --
 
-INSERT INTO `projects` (`project_id`, `project_name`, `project_creator_id`, `project_start_date`, `project_end_date`) VALUES
-(1, 'aaa', 1, '2023-12-20', '2023-12-21'),
-(2, 'aaa', 1, '2023-12-21', '0000-00-00'),
-(3, 'deneme', 1, '2023-12-02', '2023-12-31'),
-(4, '', 1, '0000-00-00', '0000-00-00'),
-(5, '', 1, '0000-00-00', '0000-00-00'),
-(6, 'toki', 1, '2023-12-04', '2023-12-23'),
-(7, 'ankara', 1, '2023-12-21', '0000-00-00'),
-(8, 'webdevelopment', 1, '2023-12-22', '2023-12-31');
+INSERT INTO `projects` (`project_id`, `project_name`, `project_creater_id`, `project_start_date`, `project_end_date`) VALUES
+(1, 'toki', 1, '2023-12-27', '2024-01-07'),
+(2, 'webdevelopment', 2, '2023-12-14', '0000-00-00'),
+(3, 'ankara aydınevler metro', 1, '2023-12-28', '2024-01-07');
 
 -- --------------------------------------------------------
 
@@ -103,9 +110,9 @@ INSERT INTO `projects` (`project_id`, `project_name`, `project_creator_id`, `pro
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `password_hash` varchar(255) NOT NULL
+  `name` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `password_hash` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -113,7 +120,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `email`, `password_hash`) VALUES
-(1, 'Yakup Tokmakci', 'yakuptokmakci71@gmail.com', '$2y$10$GrzTugnXSNApW0XyvPmiA.zlaPTxf5XdNa119uxfGl0h9bIR50GVa');
+(1, 'Yakup Tokmakci', 'yakuptokmakci71@gmail.com', '$2y$10$cLyY/HLBwzdubRyrf4eBn./ngv7kO0SAF3wznNSMdaB/1j6fhF1.q'),
+(2, 'ozan', 'ozang@gmail.com', '$2y$10$xMlkJ0RvAEbEWWIv6BvqW.jLy8OsM9Gq/6zm08gbQcFrklYjzQwkC');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -124,22 +132,35 @@ INSERT INTO `user` (`id`, `name`, `email`, `password_hash`) VALUES
 --
 ALTER TABLE `operations`
   ADD PRIMARY KEY (`operation_id`),
-  ADD UNIQUE KEY `operation_name` (`operation_name`),
-  ADD KEY `operation_project_id` (`operation_project_id`),
   ADD KEY `operation_owner` (`operation_owner`);
+
+--
+-- Tablo için indeksler `operation_products`
+--
+ALTER TABLE `operation_products`
+  ADD PRIMARY KEY (`operation_id`,`product_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Tablo için indeksler `operation_projects`
+--
+ALTER TABLE `operation_projects`
+  ADD PRIMARY KEY (`operation_id`,`project_id`),
+  ADD KEY `project_id` (`project_id`);
 
 --
 -- Tablo için indeksler `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `product_owner_id` (`product_owner_id`);
 
 --
 -- Tablo için indeksler `projects`
 --
 ALTER TABLE `projects`
   ADD PRIMARY KEY (`project_id`),
-  ADD KEY `project_creator_id` (`project_creator_id`);
+  ADD KEY `project_creater_id` (`project_creater_id`);
 
 --
 -- Tablo için indeksler `user`
@@ -156,25 +177,25 @@ ALTER TABLE `user`
 -- Tablo için AUTO_INCREMENT değeri `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `operation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `operation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar
@@ -184,14 +205,33 @@ ALTER TABLE `user`
 -- Tablo kısıtlamaları `operations`
 --
 ALTER TABLE `operations`
-  ADD CONSTRAINT `operations_ibfk_1` FOREIGN KEY (`operation_project_id`) REFERENCES `projects` (`project_id`),
-  ADD CONSTRAINT `operations_ibfk_2` FOREIGN KEY (`operation_owner`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `operations_ibfk_1` FOREIGN KEY (`operation_owner`) REFERENCES `user` (`id`);
+
+--
+-- Tablo kısıtlamaları `operation_products`
+--
+ALTER TABLE `operation_products`
+  ADD CONSTRAINT `operation_products_ibfk_1` FOREIGN KEY (`operation_id`) REFERENCES `operations` (`operation_id`),
+  ADD CONSTRAINT `operation_products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
+
+--
+-- Tablo kısıtlamaları `operation_projects`
+--
+ALTER TABLE `operation_projects`
+  ADD CONSTRAINT `operation_projects_ibfk_1` FOREIGN KEY (`operation_id`) REFERENCES `operations` (`operation_id`),
+  ADD CONSTRAINT `operation_projects_ibfk_2` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`);
+
+--
+-- Tablo kısıtlamaları `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`product_owner_id`) REFERENCES `user` (`id`);
 
 --
 -- Tablo kısıtlamaları `projects`
 --
 ALTER TABLE `projects`
-  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`project_creator_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`project_creater_id`) REFERENCES `user` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
