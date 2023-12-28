@@ -9,8 +9,9 @@ if(isset($_SESSION["user_id"])){
     $result = $mysqli->query($sql);
     $user = $result->fetch_assoc();
 }
-
+$tableresult = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_owner_id = {$_SESSION["user_id"]}");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,13 +46,16 @@ if(isset($_SESSION["user_id"])){
     
     if(isset($_POST['btnsave'])){
         $productname = $_POST['productname'];
+        $amount = $_POST['amount'];
         $mysqli = require __DIR__ . "/database.php";
 
-        $query = "INSERT INTO products (product_name)
-        SELECT * FROM (SELECT '$productname') AS tmp
+        $query = "INSERT INTO products (product_name, amount,product_owner_id) 
+        SELECT * FROM (SELECT '$productname', '$amount','{$_SESSION["user_id"]}') AS tmp
         WHERE NOT EXISTS (
-            SELECT product_name FROM products WHERE product_name = '$productname'
+            SELECT product_name FROM products WHERE product_name = '$productname' AND product_owner_id =
+            {$_SESSION["user_id"]}
         ) LIMIT 1";
+    
 
         $sqlresult= $mysqli->query($query);
         if(!$sqlresult){
@@ -66,17 +70,59 @@ if(isset($_SESSION["user_id"])){
 
     <form action="create_equipment_page.php" method="post">
     <div>
-        <label for="productname">Product Name</label>
+        <label for="productname">Equipment Name</label>
         <input type="text" id="productname" name="productname">
+    </div>
+    <div>
+        <label for="amount">Amount of Equipment or(set):</label>
+        <input type="number" id="amount" name="amount" oninput="validateInput(this)" >
     </div>
     <button name="btnsave" style="margin-right: 25px;">Save</button>
     </form>
-
+    <?php if (isset($user)): ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Project-Name</th>
+                    <td>Options</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if (!$tableresult) {
+                    die("something went wrong" . mysqli_error());
+                } else {
+                    while ($row = mysqli_fetch_assoc($tableresult)) {
+                        ?>
+                        <tr>
+                            <td><?php echo $row['product_id']; ?></td>
+                            <td><?php echo $row['product_name']; ?></td>
+                            <td>
+                                <a href="edit.php?id=<?php echo $row['product_id']; ?>" class="material-symbols-outlined">edit</a>
+                                <a href="#"><span class="material-symbols-outlined">search</span></a>
+                                <a href="delete_page.php?id=<?php echo $row["product_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
+                            </td>
+                        </tr>
+                <?php
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
     <div class="footer">
         <p>&copy; 2023 Indstrual Control</p>
         <div class="footer-links">
             <p>USER : <?= $user["name"] ?></p>
         </div>
     </div>
+    <script>
+        function validateInput(input) {
+            if (input.value < 0) {
+                input.value = 0;
+            }
+        }
+    </script>
 </body>
 </html>

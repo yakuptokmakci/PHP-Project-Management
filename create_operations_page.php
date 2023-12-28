@@ -10,8 +10,9 @@ if (isset($_SESSION["user_id"])) {
     $user = $result->fetch_assoc();
 }
 
-$dropdownresult = mysqli_query($mysqli, "SELECT * FROM `projects`");
-$dropdownequipment = mysqli_query($mysqli, "SELECT * FROM `products`");
+$dropdownresult = mysqli_query($mysqli, "SELECT * FROM `projects` WHERE project_creater_id = {$_SESSION["user_id"]}");
+$dropdownequipment = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_owner_id = {$_SESSION["user_id"]}");
+
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +89,7 @@ $dropdownequipment = mysqli_query($mysqli, "SELECT * FROM `products`");
             <select id="equipment" name="equipment" onchange="getdropdownelement()">
                 <?php
                 while ($row = mysqli_fetch_assoc($dropdownequipment)) {
-                    echo "<option value='{$row["product_name"]}'>{$row["product_name"]}</option>";
+                    echo "<option value='{$row["product_name"]}'>{$row["product_name"]} ({$row["amount"]})</option>";
                 }
                 ?>
             </select>

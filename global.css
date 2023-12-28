@@ -91,11 +91,16 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: url("./assets/main-background.jpg") center center no-repeat;
+    width: 100%;
+    height: auto;
+    background-size: cover;
 }
 
 .logo h1 {
-    color: #fff;
+    color: white;
     margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .navbar-links {
@@ -104,6 +109,7 @@ a:hover {
 
 .navbar-links a {
     color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     text-decoration: none;
     margin: 0 15px;
     transition: color 0.3s ease;
@@ -156,8 +162,11 @@ a:hover {
     margin-top: auto;
     background-color: #343a40;
     color: #fff;
-    padding: 1px 0; 
     text-align: center;
+    background: url("./assets/main-background.jpg") center center no-repeat;
+    width: 100%;
+    height: auto;
+    background-size: cover;
 }
 
 .footer a {
@@ -223,12 +232,7 @@ body {
     margin: 0 auto;
 }
 
-header {
-    background-color: #343a40;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
-}
+
 
 h1 {
     color: #343a40;
