@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_SESSION["user_id"])) {
     $mysqli = require __DIR__ . "/database.php";
-
+    $address = "";
     $sql = "SELECT * FROM user WHERE id = {$_SESSION["user_id"]}";
 
     $result = $mysqli->query($sql);
@@ -51,14 +51,18 @@ $dropdownequipment = mysqli_query($mysqli, "SELECT * FROM `products` WHERE produ
         $operationname = $_POST['operationname'];
         $projectname = $_POST['project']; 
         $equipmentname =$_POST['equipment'];
+        $address = "";
+        $address = $_POST['address'];
 
         $selectedprojectquery = "SELECT project_id FROM projects WHERE project_name = '$projectname'";
         $selectedprojectresult = mysqli_query($mysqli, $selectedprojectquery);
         $selectedprojectrow = mysqli_fetch_assoc($selectedprojectresult);
         $operation_project_id = $selectedprojectrow['project_id'];
 
-        $query = "INSERT INTO `operations` (`operation_name`, `operation_project_id`, `operation_equipment_name`, `operation_owner`) VALUES ('$operationname', '$operation_project_id', '$equipmentname', '{$_SESSION["user_id"]}')";
+        $query = "INSERT INTO `operations` (`operation_name`, `operation_owner`,`address`) 
+        VALUES ('$operationname', '{$_SESSION["user_id"]}', '$address')";
 
+        
         $sqlresult = $mysqli->query($query);
         if (!$sqlresult) {
             die("something went wrong" . mysqli_error($mysqli));
@@ -93,6 +97,10 @@ $dropdownequipment = mysqli_query($mysqli, "SELECT * FROM `products` WHERE produ
                 }
                 ?>
             </select>
+        </div>
+        <div>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($address); ?>"><br>
         </div>
         <button name="btnsave" style="margin-right: 25px;">Save</button>
     </form>

@@ -48,9 +48,10 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_own
         $productname = $_POST['productname'];
         $amount = $_POST['amount'];
         $mysqli = require __DIR__ . "/database.php";
+        $address = $_POST['address'];
 
-        $query = "INSERT INTO products (product_name, amount, product_owner_id) 
-          SELECT * FROM (SELECT '$productname', '$amount', '{$_SESSION["user_id"]}') AS tmp
+        $query = "INSERT INTO products (product_name, amount, product_owner_id, address) 
+          SELECT * FROM (SELECT '$productname', '$amount', '{$_SESSION["user_id"]}','$address') AS tmp
           WHERE NOT EXISTS (
               SELECT product_name FROM products 
               WHERE product_name = '$productname' AND amount = '$amount'
@@ -78,6 +79,10 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_own
         <label for="amount">Amount of Equipment or(set):</label>
         <input type="number" id="amount" name="amount" oninput="validateInput(this)" >
     </div>
+    <div>
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address">
+    </div>
     <button name="btnsave" style="margin-right: 25px;">Save</button>
     </form>
     <?php if (isset($user)): ?>
@@ -101,7 +106,8 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_own
                             <td><?php echo $row['product_name'];?>
                             <?php echo $row['amount'];?></td>
                             <td>
-                                <a href="edit.php?id=<?php echo $row['product_id']; ?>" class="material-symbols-outlined">edit</a>
+                                <a href="edit_equipment.php?id=<?php echo $row['product_id']; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>" class="material-symbols-outlined">edit</a>
+                                <a href="http://maps.google.com/maps?q=<?php echo urlencode($row['address']); ?>" target="_blank"><span class="material-symbols-outlined">pin_drop</span></a>
                                 <a href="delete_equipment_page.php?product_id=<?php echo $row["product_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
                             </td>
                         </tr>

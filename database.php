@@ -1,7 +1,7 @@
 <?php
 
 $host="localhost";
-$dbname="GROUP3";
+$dbname="teodb";
 $username="root";
 $password="";
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 28 Ara 2023, 17:40:26
+-- Üretim Zamanı: 31 Ara 2023, 20:40:58
 -- Sunucu sürümü: 10.4.32-MariaDB
 -- PHP Sürümü: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Veritabanı: `group3`
+-- Veritabanı: `teodb`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,16 @@ CREATE TABLE `operations` (
   `operation_owner` int(11) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Tablo döküm verisi `operations`
+--
+
+INSERT INTO `operations` (`operation_id`, `operation_name`, `operation_owner`, `address`) VALUES
+(1, 'emlak bankası', 1, NULL),
+(5, 'TestTeo', 3, NULL),
+(6, '1', 1, 'NULL'),
+(7, 'huzur evi projesi2', 1, 'köyiçi bağdatlı');
 
 -- --------------------------------------------------------
 
@@ -66,18 +76,22 @@ CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `product_name` varchar(50) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
-  `product_owner_id` int(11) DEFAULT NULL
+  `product_owner_id` int(11) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Tablo döküm verisi `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `amount`, `product_owner_id`) VALUES
-(1, 'balta', 12, 1),
-(2, 'kazma kürek kiti', 5, 2),
-(3, 'yangın tüpü', 15, 1),
-(4, 'kazma kürek kiti', 13, 1);
+INSERT INTO `products` (`product_id`, `product_name`, `amount`, `product_owner_id`, `address`) VALUES
+(2, 'kazma kürek kiti', 31, 3, 'Bahçelievler Merkez, Bağcılar Cd. No:2, 34160 Güngören/İstanbul'),
+(3, 'yangın tüpü', 15, 3, 'Mehmet Nesih Özmen, Şimşir Sk., 34173 Güngören/İstanbul'),
+(4, 'kazma kürek kiti', 13, 3, 'Haznedar, Heybeli Cd. No:1, 34160 Güngören/İstanbul'),
+(5, 'Monitor31', 1, 3, 'Bahçelievler Merkez, Emlak Konut Sitesi 1G, 34180 Bahçelievler/İstanbul'),
+(6, 'pc', 6, 1, 'köyiçi bağdatlı'),
+(7, 'balta', 18, 1, 'darülacize'),
+(8, 'klavye', 12, 3, 'perpa');
 
 -- --------------------------------------------------------
 
@@ -100,7 +114,8 @@ CREATE TABLE `projects` (
 INSERT INTO `projects` (`project_id`, `project_name`, `project_creater_id`, `project_start_date`, `project_end_date`) VALUES
 (1, 'toki', 1, '2023-12-27', '2024-01-07'),
 (2, 'webdevelopment', 2, '2023-12-14', '0000-00-00'),
-(3, 'ankara aydınevler metro', 1, '2023-12-28', '2024-01-07');
+(3, 'ankara aydınevler metro', 1, '2023-12-28', '2024-01-07'),
+(5, 'TeoTest', 3, '2023-12-29', '2024-05-11');
 
 -- --------------------------------------------------------
 
@@ -121,7 +136,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `name`, `email`, `password_hash`) VALUES
 (1, 'Yakup Tokmakci', 'yakuptokmakci71@gmail.com', '$2y$10$cLyY/HLBwzdubRyrf4eBn./ngv7kO0SAF3wznNSMdaB/1j6fhF1.q'),
-(2, 'ozan', 'ozang@gmail.com', '$2y$10$xMlkJ0RvAEbEWWIv6BvqW.jLy8OsM9Gq/6zm08gbQcFrklYjzQwkC');
+(2, 'ozan', 'ozang@gmail.com', '$2y$10$xMlkJ0RvAEbEWWIv6BvqW.jLy8OsM9Gq/6zm08gbQcFrklYjzQwkC'),
+(3, 'teoman', 'teoman@teoman.com', '$2y$10$7y0O/3WOqjzaOpUShPkvd.nDx9k.BTeGnGd91PTbPNtXgYnHhV.1u');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -177,25 +193,25 @@ ALTER TABLE `user`
 -- Tablo için AUTO_INCREMENT değeri `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `operation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `operation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar

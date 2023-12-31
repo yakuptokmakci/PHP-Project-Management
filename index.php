@@ -63,7 +63,7 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `operations`");
                     <td><?php echo $row['operation_name']; ?></td>
                     <td>
                         <a href="edit.php?id=<?php echo $row['operation_id']; ?>" class="material-symbols-outlined">edit</a>
-                        <a href = "#"><span class="material-symbols-outlined">search</span></a>
+                        <a href="http://maps.google.com/maps?q=<?php echo urlencode($row['address']); ?>" target="_blank"><span class="material-symbols-outlined">search</span></a>
                         <a href="delete_page.php?id=<?php echo $row["operation_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
                     </td>
                     </tr>
