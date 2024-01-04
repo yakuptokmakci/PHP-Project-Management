@@ -44,35 +44,36 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `operations`");
 </nav>
     <?php if (isset($user)): ?>
         <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <td>Options</td>
-            </tr>
-        </thead>
-        <tbody>
-        <?php
-            if(!$tableresult){
-                die("something went wrong" . mysqli_error());
-            } else {
-                while($row = mysqli_fetch_assoc($tableresult)){
-                ?>
+            <thead>
                 <tr>
-                    <td><?php echo $row['operation_id']; ?></td>
-                    <td><?php echo $row['operation_name']; ?></td>
-                    <td>
-                        <a href="edit.php?id=<?php echo $row['operation_id']; ?>" class="material-symbols-outlined">edit</a>
-                        <a href="http://maps.google.com/maps?q=<?php echo urlencode($row['address']); ?>" target="_blank"><span class="material-symbols-outlined">search</span></a>
-                        <a href="delete_page.php?id=<?php echo $row["operation_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
-                    </td>
-                    </tr>
-            <?php
-        }
-    }
-?>
-        </tbody>
-    </table>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <td>Options</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if(!$tableresult){
+                    die("something went wrong" . mysqli_error());
+                } else {
+                    while($row = mysqli_fetch_assoc($tableresult)){
+                        ?>
+                        <tr>
+                            <td><?php echo $row['operation_id']; ?></td>
+                            <td><?php echo $row['operation_name']; ?></td>
+                            <td>
+                                <a href="edit_operations.php?id=<?php echo $row['operation_id']; ?>" class="material-symbols-outlined">edit</a>
+                                <a href="http://maps.google.com/maps?q=<?php echo urlencode($row['address']); ?>" target="_blank"><span class="material-symbols-outlined">pin_drop</span></a>
+                                <a href="delete_page.php?id=<?php echo $row["operation_id"]; ?>&user_id=<?php echo $_SESSION["user_id"]; ?>"><span class="material-symbols-outlined">delete</span></a>
+                                <a href="operation_details.php?id=<?php echo $row['operation_id']; ?>" class="material-symbols-outlined">loupe</a>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
     <?php else: ?>
         <p><a href="login.php">to log in</a> or <a href="signup.htm">to sign up</a></p>
     <?php endif; ?>
