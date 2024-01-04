@@ -10,6 +10,26 @@ if(isset($_SESSION["user_id"])){
     $user = $result->fetch_assoc();
 }
 
+// Count total users
+$userCountQuery = "SELECT COUNT(*) as totalUsers FROM user";
+$userCountResult = $mysqli->query($userCountQuery);
+$userCount = $userCountResult->fetch_assoc()["totalUsers"];
+
+// Count total registered products
+$productCountQuery = "SELECT COUNT(*) as totalProducts FROM products";
+$productCountResult = $mysqli->query($productCountQuery);
+$productCount = $productCountResult->fetch_assoc()["totalProducts"];
+
+// Count total registered projects
+$projectCountQuery = "SELECT COUNT(*) as totalProjects FROM projects";
+$projectCountResult = $mysqli->query($projectCountQuery);
+$projectCount = $projectCountResult->fetch_assoc()["totalProjects"];
+
+// Count total registered operations
+$operationCountQuery = "SELECT COUNT(*) as totalOperations FROM operations";
+$operationCountResult = $mysqli->query($operationCountQuery);
+$operationCount = $operationCountResult->fetch_assoc()["totalOperations"];
+
 $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
 
 ?>
@@ -55,18 +75,19 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
       </div>
       <div class="div-about">
         <div class="">
+
          
-          <h3>Welcome to Equipment Project</h3>
-          <p><i>Your go-to software Equipment app! Founded in 2023.</i></p>
+          <h3>Welcome to Project Management App!</h3>
+          <p><i>Your go-to software Project Management App! Founded in 2023.</i></p>
          
           <h3>Our Mission</h3>
-          <p><i>Helping clients to arrange their equipments easily and user-friendly.</i></p>
+          <p><i>Helping clients to arrange their projects easily and user-friendly.</i></p>
          
           <h3>Our Approach</h3>
-          <p><i>Creating equipment system that are functional, aesthetically pleasing, and user-friendly.</i></p>
+          <p><i>Creating project system that are functional, aesthetically pleasing, and user-friendly.</i></p>
          
           <h3>Why Choose Our Program</h3>
-          <p><i>We offer easy-to-use, excellent and smooth equipment arrange service. Thank You for Considering Our Service! We look forward to working with you!</i></p>
+          <p><i>We offer easy-to-use, excellent and smooth project arrange service. Thank You for Considering Our Service! We look forward to working with you!</i></p>
          
         </div>
        
@@ -87,7 +108,7 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
         <img src="assets/1.png" alt="How to Use Image" class="how-to-use-image">
         <div class="how-to-use-text">
           <h1>1. </h1>
-            <p>You can display registered equipments. You can edit, review and delete your registered equipments as you wish.</p>
+            <p>You can display registered projects. You can edit, review and delete your registered projects as you wish.</p>
         </div>
     </div>
 
@@ -95,7 +116,31 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
         <img src="assets/2.png" alt="How to Use Image" class="how-to-use-image">
         <div class="how-to-use-text">
             <h1>2. </h1>
-            <p>You can edit your registered equipment as you wish by pressing the 'Pencil' icon. You can then save the changes by pressing the 'Update' button.</p>
+            <p>You can edit your registered project as you wish by pressing the 'Pencil' icon. You can then save the changes by pressing the 'Update' button.</p>
+        </div>
+    </div>
+
+    <div class="how-to-use-container"> 
+        <img src="assets/3.png" alt="How to Use Image" class="how-to-use-image">
+        <div class="how-to-use-text">
+            <h1>3. </h1>
+            <p>You can create a new project and set the "Start" and "End" dates.</p>
+        </div>
+    </div>
+
+    <div class="how-to-use-container"> 
+        <img src="assets/4.png" alt="How to Use Image" class="how-to-use-image">
+        <div class="how-to-use-text">
+            <h1>4. </h1>
+            <p>You create equipments and set amount and address of it.</p>
+        </div>
+    </div>
+
+    <div class="how-to-use-container"> 
+        <img src="assets/5.png" alt="How to Use Image" class="how-to-use-image">
+        <div class="how-to-use-text">
+            <h1>5. </h1>
+            <p>Then you can create an operation, select a project and assign equipments to the project as you wish. </p>
         </div>
     </div>
 
@@ -122,16 +167,16 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
         </div>
         <div>
           <div class="info-box">
-            <i class="bx bx-envelope"></i>
+            <i class=""></i>
             <h3>Email</h3>
             <p>test@gmail.com</p>
           </div>
         </div>
-        <div class="col-lg-3 mb-4">
+        <div class="">
           <div class="info-box">
             <i class="bx bx-phone-call"></i>
             <h3>Meeting</h3>
-            <a href="https://calendly.com/guneyberkayates/30min">Schedule a Meeting</a>
+            <a class="meeting" href="https://calendly.com/guneyberkayates/30min">Schedule a Meeting</a>
           </div>
         </div>
       </div>
@@ -143,7 +188,41 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products`");
       </div>
     </div>
   </section>
-  <!-- end contact section  -->
+
+  <section>
+    <div class="totalcontainer">
+      
+      <div class="totalinfoboxes">
+        <h1>Total Users</h1>
+        <h2>
+          <?php echo $userCount; ?>
+        </h2>
+      </div>
+
+      <div class="totalinfoboxes">
+      <h1>Total Registered Products</h1>
+      <h2>
+        <?php echo $productCount; ?>
+      </h2>
+      </div>
+
+      <div class="totalinfoboxes">
+      <h1>Total Registered Projects</h1>
+        <h2>
+          <?php echo $projectCount; ?>
+        </h2>
+      </div>
+
+      <div class="totalinfoboxes">
+      <h1>Total Registered Operations</h1>
+      <h2>
+        <?php echo $operationCount; ?>
+      </h2>
+      </div>
+    
+    </div>
+    
+    </section>
 
 </body>
 

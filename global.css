@@ -27,6 +27,89 @@ h1 {
     margin-bottom: 20px;
 }
 
+.row-class{
+    display: flex;
+    gap: 100px;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.info-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.div-about{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+}
+
+a{
+    color: blue; 
+}
+
+.contact-text{
+    text-align: center;
+}
+
+
+.how-to-use-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 20px;
+    background-color: rgba(100, 100, 100, 0.2);
+    padding: 10px;
+}
+
+.how-to-use-container h1 {
+    /* Your CSS styles for the h1 element go here */
+    color: #333; /* Example text color (change as needed) */
+    font-size: 24px; /* Example font size (change as needed) */
+    align-self: flex-start;
+
+}
+
+/* Style for the image */
+.how-to-use-image {
+    max-width: 50%; /* Adjust the width as needed */
+    height: auto;
+    border-radius: 20px; /* Optional: Add rounded corners to the image */
+    border: 1px solid #333;
+}
+
+/* Style for the text */
+.how-to-use-text {
+    max-width: 50%; /* Adjust the width as needed */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.meeting{
+    color:blue
+}
+
+.totalcontainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 50px;
+    background-color: rgba(100, 100, 100, 0.2);
+}
+
+.totalinfoboxes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   
+    align-items: center;
+}
+
 form {
     margin-top: 20px;
     max-width: 400px;
@@ -96,11 +179,21 @@ a:hover {
     height: auto;
     background-size: cover;
 }
+.totalinfoboxes h1{
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    margin: 0;
+}
+
+.totalinfoboxes h2{
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
 
 .logo h1 {
     color: white;
     margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .navbar-links {
@@ -109,11 +202,12 @@ a:hover {
 
 .navbar-links a {
     color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.8); /* Adjusted shadow values */
     text-decoration: none;
     margin: 0 15px;
     transition: color 0.3s ease;
 }
+
 
 .navbar-links a:hover {
     color: #ccc;
