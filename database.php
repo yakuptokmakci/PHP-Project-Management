@@ -1,9 +1,9 @@
 <?php
 
 $host="localhost";
-$dbname="teodb";
-$username="root";
-$password="";
+$dbname="GROUP3";
+$username="abc";
+$password="abc";
 
 $mysqli = new mysqli($host,$username,$password,$dbname);
 
