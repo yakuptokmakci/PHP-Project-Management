@@ -63,7 +63,7 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `products` WHERE product_own
         if(!$sqlresult){
             die("something went wrong".mysqli_error());
         }else{
-            die("New product Added");
+            header('Location: index.php');
         }
 
     }

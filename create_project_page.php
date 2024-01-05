@@ -65,7 +65,7 @@ $tableresult = mysqli_query($mysqli, "SELECT * FROM `projects` WHERE project_cre
         if (!$sqlresult) {
             die("something went wrong" . mysqli_error());
         } else {
-            die("New Project Added");
+            header('Location: index.php');
         }
     }
 

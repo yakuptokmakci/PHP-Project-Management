@@ -49,7 +49,7 @@ if (isset($_POST['btnsave'])) {
             $mysqli->query($insertEquipmentQuery);
         }
 
-        die("New Operation Added");
+        header('Location: index.php');
     }
 }
 
